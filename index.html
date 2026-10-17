@@ -1,13 +1,128 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Portal equestre landing page" />
+    <meta name="description" content="Eventos, competições equestres, categorias e resultados." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/home.css" />
     <title>Portal Equestre</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div class="page-shell" id="root">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Portal Equestre, início">
+          <span class="brand-mark" aria-hidden="true">P</span>
+          <span>Portal Equestre</span>
+        </a>
+
+        <div class="header-actions">
+          <button class="icon-button" type="button" aria-label="Notificações">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></svg>
+          </button>
+          <details class="profile-menu">
+            <summary class="icon-button profile-button" aria-label="Abrir menu da conta" title="Conta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M4.5 21a7.5 7.5 0 0 1 15 0" /></svg>
+            </summary>
+            <div class="profile-panel">
+              <p class="profile-panel-title">Minha conta</p>
+              <button type="button" disabled>Meu perfil</button>
+              <button type="button" disabled>Minhas inscrições</button>
+              <button type="button" disabled>Configurações</button>
+              <p class="profile-panel-note">A área da conta estará disponível em uma próxima etapa.</p>
+            </div>
+          </details>
+        </div>
+      </header>
+
+      <main class="home-page">
+        <div class="home-container">
+          <section class="home-section featured-section" aria-labelledby="events-title">
+            <div class="home-section-heading">
+              <div>
+                <p class="home-kicker">Em destaque</p>
+                <h1 id="events-title">Eventos</h1>
+              </div>
+              <span class="carousel-count" data-carousel-count aria-live="polite">1 de 3</span>
+            </div>
+
+            <div class="featured-card" data-carousel role="region" aria-roledescription="carrossel" aria-label="Eventos em destaque" tabindex="0">
+              <div class="event-image-placeholder" aria-hidden="true">
+                <span class="image-placeholder-mark">PE</span>
+                <span>Imagem do evento</span>
+              </div>
+              <div class="featured-card-copy" aria-live="polite">
+                <div>
+                  <h2 data-event-title>Prova dos 3 Tambores</h2>
+                  <p data-event-category>Categoria: Feminina</p>
+                </div>
+                <div class="carousel-controls" aria-label="Controles do carrossel">
+                  <button type="button" data-carousel-prev aria-label="Evento anterior">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+                  </button>
+                  <button type="button" data-carousel-next aria-label="Próximo evento">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-dots" data-carousel-dots aria-label="Escolher evento">
+              <button type="button" class="is-active" aria-label="Mostrar evento 1" aria-current="true"></button>
+              <button type="button" aria-label="Mostrar evento 2"></button>
+              <button type="button" aria-label="Mostrar evento 3"></button>
+            </div>
+          </section>
+
+          <section class="registration-section" aria-label="Inscrições">
+            <button class="registration-button" type="button">
+              <span>Inscreva-se</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+            </button>
+          </section>
+
+          <nav class="home-section quick-links-section" aria-label="Atalhos">
+            <h2 class="visually-hidden">Atalhos</h2>
+            <div class="quick-links-grid">
+              <a class="quick-link-card" href="/modalidades"><span class="quick-link-icon" aria-hidden="true">◈</span><span>Categorias</span></a>
+              <a class="quick-link-card" href="/resultados"><span class="quick-link-icon" aria-hidden="true">↗</span><span>Ranking</span></a>
+              <a class="quick-link-card" href="/regulamentos"><span class="quick-link-icon" aria-hidden="true">▤</span><span>Regulamentos</span></a>
+              <div class="quick-link-card quick-link-placeholder" aria-label="Atalho reservado"><span class="quick-link-icon" aria-hidden="true">＋</span><span>Em breve</span></div>
+            </div>
+          </nav>
+
+          <section class="home-section sponsors-section" aria-labelledby="sponsors-title">
+            <div class="home-section-heading centered-heading">
+              <div><p class="home-kicker">Quem apoia o esporte</p><h2 id="sponsors-title">Patrocinadores</h2></div>
+            </div>
+            <div class="sponsors-list" aria-label="Espaços reservados para logos de patrocinadores">
+              <div class="sponsor-placeholder">Haras Vale do Sol</div>
+              <div class="sponsor-placeholder">Riders Supply</div>
+              <div class="sponsor-placeholder">EquiMetria</div>
+              <div class="sponsor-placeholder">Bronze Arena</div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <a class="footer-brand" href="/">Portal Equestre</a>
+        <div class="footer-contact">
+          <h2>Contato</h2>
+          <a href="mailto:contato@portalequestre.com">contato@portalequestre.com</a>
+        </div>
+        <nav class="footer-institutional" aria-label="Informações institucionais">
+          <h2>Portal</h2>
+          <a href="/sobre">Sobre</a>
+          <a href="/contato">Fale conosco</a>
+          <a href="/regulamentos">Regulamentos</a>
+        </nav>
+        <p class="footer-copyright">Portal Equestre</p>
+      </footer>
+    </div>
+    <script type="module" src="/src/home.js"></script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

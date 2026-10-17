@@ -2,11 +2,9 @@ import { useMemo } from 'react';
 import {
   BrowserRouter,
   Link,
-  NavLink,
   Route,
   Routes,
   useLocation,
-  useNavigate,
   useParams,
 } from 'react-router-dom';
 import {
@@ -28,61 +26,35 @@ function App() {
 }
 
 function AppShell() {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const term = (form.get('search') || '').toString().trim();
-
-    if (!term) {
-      navigate('/eventos');
-      return;
-    }
-
-    const currentPath = location.pathname;
-    if (currentPath.startsWith('/noticias')) {
-      navigate(`/noticias?search=${encodeURIComponent(term)}`);
-      return;
-    }
-
-    if (currentPath.startsWith('/participantes')) {
-      navigate(`/participantes?search=${encodeURIComponent(term)}`);
-      return;
-    }
-
-    navigate(`/eventos?search=${encodeURIComponent(term)}`);
-  };
-
   return (
     <div className="page-shell">
       <header className="topbar">
-        <Link className="brand" to="/" aria-label="Portal Equestre home">
+        <Link className="brand" to="/" reloadDocument aria-label="Portal Equestre home">
           <span className="brand-mark">P</span>
           <span>Portal Equestre</span>
         </Link>
-
-        <nav className="nav" aria-label="Navegação principal">
-          <NavLink to="/">Início</NavLink>
-          <NavLink to="/eventos">Eventos</NavLink>
-          <NavLink to="/resultados">Resultados</NavLink>
-          <NavLink to="/noticias">Notícias</NavLink>
-          <NavLink to="/modalidades">Modalidades</NavLink>
-          <NavLink to="/participantes">Participantes</NavLink>
-          <NavLink to="/contato">Contato</NavLink>
-        </nav>
-
-        <form className="search-box" onSubmit={handleSearch}>
-          <input type="search" name="search" placeholder="Buscar eventos, notícias, participantes" aria-label="Buscar conteúdo" />
-          <button type="submit">Buscar</button>
-        </form>
+        <div className="account-actions">
+          <button className="icon-button" type="button" aria-label="Notificações">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></svg>
+          </button>
+          <details className="profile-menu">
+            <summary className="icon-button profile-button" aria-label="Abrir menu da conta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M4.5 21a7.5 7.5 0 0 1 15 0" /></svg>
+            </summary>
+            <div className="profile-panel">
+              <p className="profile-panel-title">Minha conta</p>
+              <button type="button" disabled>Meu perfil</button>
+              <button type="button" disabled>Minhas inscrições</button>
+              <button type="button" disabled>Configurações</button>
+              <p className="profile-panel-note">A área da conta estará disponível em uma próxima etapa.</p>
+            </div>
+          </details>
+        </div>
       </header>
 
       <Breadcrumbs />
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
         <Route path="/eventos" element={<EventsPage />} />
         <Route path="/eventos/:eventId" element={<EventDetailPage />} />
         <Route path="/eventos/:eventId/corridas/:raceId" element={<RaceDetailPage />} />
@@ -101,14 +73,23 @@ function AppShell() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
-      <footer className="footer">
-        <p>Portal Equestre</p>
-        <a href="mailto:contato@portalequestre.com">contato@portalequestre.com</a>
+      <footer className="footer site-footer">
+        <Link className="footer-brand" to="/" reloadDocument aria-label="Portal Equestre, início">Portal Equestre</Link>
+        <div className="footer-contact">
+          <h2>Contato</h2>
+          <a href="mailto:contato@portalequestre.com">contato@portalequestre.com</a>
+        </div>
+        <nav className="footer-institutional" aria-label="Informações institucionais">
+          <h2>Portal</h2>
+          <Link to="/sobre">Sobre</Link>
+          <Link to="/contato">Fale conosco</Link>
+          <Link to="/regulamentos">Regulamentos</Link>
+        </nav>
+        <p className="footer-copyright">Portal Equestre</p>
       </footer>
     </div>
   );
 }
-
 function Breadcrumbs() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter(Boolean);
@@ -151,7 +132,7 @@ function Breadcrumbs() {
           {index === crumbs.length - 1 ? (
             <span className="crumb-current">{crumb.label}</span>
           ) : (
-            <Link to={crumb.to}>{crumb.label}</Link>
+            <Link to={crumb.to} reloadDocument={crumb.to === '/'}>{crumb.label}</Link>
           )}
         </span>
       ))}
@@ -159,160 +140,7 @@ function Breadcrumbs() {
   );
 }
 
-function HomePage() {
-  const latestResults = results.slice(0, 3);
-  const topNews = news.slice(0, 3);
-
-  return (
-    <main>
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="eyebrow">Portal oficial de competições equestres</p>
-          <h1>O palco digital para eventos, provas e resultados.</h1>
-          <p className="lead">
-            Acompanhe competições, conheça categorias, consulte resultados e descubra o melhor do esporte equestre em um único lugar.
-          </p>
-
-          <div className="hero-actions">
-            <Link className="primary" to="/eventos">Ver eventos</Link>
-            <Link className="secondary" to="/resultados">Resultados</Link>
-          </div>
-
-          <ul className="stats" aria-label="Estatísticas do portal">
-            <li><strong>24</strong><span>eventos</span></li>
-            <li><strong>08</strong><span>provas</span></li>
-            <li><strong>340+</strong><span>competidores</span></li>
-            <li><strong>18</strong><span>patrocinadores</span></li>
-          </ul>
-        </div>
-
-        <div className="hero-card" aria-label="Destaque de evento">
-          <div className="card-badge">Evento destaque</div>
-          <div className="card-visual">
-            <div className="horse-scene" aria-hidden="true">
-              <span className="sun" />
-              <span className="terrain" />
-              <span className="horse-body" />
-              <span className="horse-head" />
-              <span className="horse-leg" />
-              <span className="horse-leg" />
-              <span className="horse-leg" />
-              <span className="horse-leg" />
-            </div>
-          </div>
-          <div className="card-footer">
-            <div>
-              <strong>Troféu Três Tambores</strong>
-              <span>Final da temporada</span>
-            </div>
-            <span className="status-pill">Ao vivo</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <div className="section-header">
-          <div>
-            <p className="eyebrow alt">Agenda</p>
-            <h2>Próximos eventos</h2>
-          </div>
-          <Link className="text-link" to="/eventos">Ver todos</Link>
-        </div>
-
-        <div className="events-grid">
-          {events.slice(0, 3).map((event) => (
-            <Link key={event.id} className="event-card" to={`/eventos/${event.id}`}>
-              <div className="event-topline">
-                <span className="tag">{event.category}</span>
-                <span className="status">{event.status}</span>
-              </div>
-              <h3>{event.title}</h3>
-              <ul>
-                <li>{event.date}</li>
-                <li>{event.location}</li>
-              </ul>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="info-panel">
-        <div className="panel-copy">
-          <p className="eyebrow alt">Experiência de portal</p>
-          <h2>Informações claras para público, organizadores e competidores.</h2>
-          <p>
-            O portal reúne provas, calendário, documentos e classificação em uma interface fácil de navegar, com foco em conteúdo confiável e experiência esportiva moderna.
-          </p>
-        </div>
-
-        <div className="panel-list">
-          {modalities.map((item) => (
-            <div key={item.id} className="mini-chip">{item.title}</div>
-          ))}
-        </div>
-      </section>
-
-      <section className="results-section">
-        <div className="section-header">
-          <div>
-            <p className="eyebrow alt">Resultados</p>
-            <h2>Últimas classificações</h2>
-          </div>
-          <Link className="text-link" to="/resultados">Ver todas</Link>
-        </div>
-
-        <div className="results-table">
-          <div className="table-header">
-            <span>Posição</span>
-            <span>Competidor</span>
-            <span>Cavalo</span>
-            <span>Tempo</span>
-          </div>
-
-          {latestResults.map((item) => (
-            <div key={`${item.eventId}-${item.rider}-${item.position}`} className="table-row">
-              <span>{item.position}º</span>
-              <span>{item.rider}</span>
-              <span>{item.horse}</span>
-              <span>{item.time}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <div className="section-header">
-          <div>
-            <p className="eyebrow alt">Notícias</p>
-            <h2>Últimas novidades</h2>
-          </div>
-          <Link className="text-link" to="/noticias">Ver feed</Link>
-        </div>
-
-        <div className="news-grid">
-          {topNews.map((item) => (
-            <Link key={item.id} className="news-card" to={`/noticias/${item.id}`}>
-              <span className="news-tag">{item.category}</span>
-              <h3>{item.title}</h3>
-              <p>{item.summary}</p>
-              <small>{item.date}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="partners">
-        <p className="eyebrow alt">Patrocinadores</p>
-        <div className="partner-grid">
-          {sponsors.map((sponsor) => (
-            <span key={sponsor}>{sponsor}</span>
-          ))}
-        </div>
-      </section>
-    </main>
-  );
-}
-
+/* Existing portal routes and their content remain below. */
 function EventsPage() {
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('search') || '';

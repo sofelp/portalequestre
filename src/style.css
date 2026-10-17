@@ -1,9 +1,21 @@
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --color-primary: #2D1715;
+  --color-accent: #C45843;
+  --color-background: #FFFFFF;
+  --color-surface: #F5F2F0;
+  --color-text: #2D1715;
+  --color-muted: #6B625F;
+  --color-border: #E5DEDA;
+  --font-body: 'Source Sans 3', sans-serif;
+  --font-heading: 'Roboto Slab', serif;
+  --radius-card: 20px;
+  --radius-control: 14px;
+  --space-section: clamp(32px, 6vw, 64px);
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
-  color: #201711;
-  background: #f8f3ed;
+  color: var(--color-text);
+  background: var(--color-background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,10 +35,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(232, 181, 89, 0.18), transparent 18%),
-    linear-gradient(135deg, #f8f1e3 0%, #f2e4d1 34%, #f6f3ef 100%);
-  color: #201711;
+  background: var(--color-background);
+  color: var(--color-text);
 }
 
 img {
